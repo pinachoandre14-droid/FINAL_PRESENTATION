@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Suburbia Satélite — BIM Experience · KUBIK STUDIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============================ PRELOADER ============================ -->
+<div class="preloader">
+  <div class="pl-mark"><span>KUBIK&nbsp;STUDIO</span></div>
+  <div class="pl-line"><i></i></div>
+  <div class="pl-sub">
+    <span>Loading the digital twin</span>
+    <span class="pl-count">000</span>
+  </div>
+</div>
+
+<!-- ============================ CHROME ============================ -->
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<header class="topbar">
+  <a class="brand" href="#cover">KUBIK<span>·</span>STUDIO</a>
+  <div class="ticker">
+    <span class="dot"></span>
+    <span>Suburbia Satélite</span>
+    <span>BIM · LOD 350</span>
+  </div>
+</header>
+
+<nav class="chapternav" aria-label="Chapters">
+  <button data-target="prologue" class="active"><span class="nlabel">Prologue</span><span class="nline"></span></button>
+  <button data-target="ch01"><span class="nlabel">The Challenge</span><span class="nline"></span></button>
+  <button data-target="ch02"><span class="nlabel">Digital Twin</span><span class="nline"></span></button>
+  <button data-target="ch03"><span class="nlabel">BIM Anatomy</span><span class="nline"></span></button>
+  <button data-target="ch04"><span class="nlabel">Coordination</span><span class="nline"></span></button>
+  <button data-target="ch05"><span class="nlabel">Development</span><span class="nline"></span></button>
+  <button data-target="ch06"><span class="nlabel">Final Result</span><span class="nline"></span></button>
+</nav>
+
+<div class="scrollcue"><span>Scroll</span><span class="bar"></span></div>
+
+<main>
+
+<!-- ============================ COVER ============================ -->
+<section class="cover" id="cover" data-mouse>
+  <div class="cover-bg"></div>
+  <div class="grid-lines" data-parallax="0.06"></div>
+  <div class="wrap cover-top">
+    <div class="mono">An architectural exhibition<br />of a complete BIM development</div>
+    <div class="mono" style="text-align:right">Cd. Satélite<br />Naucalpan · México</div>
+  </div>
+  <div class="wrap cover-title" data-mouse-depth="14">
+    <div class="eyebrow" style="margin-bottom:clamp(14px,2vh,28px)">BIM Model · LOD 350</div>
+    <h1 class="display" data-words>Suburbia <em>Satélite</em></h1>
+  </div>
+  <div class="wrap">
+    <div class="cover-meta">
+      <div class="col"><span class="k">Discipline</span><span class="v">Architecture · Structure · MEP</span></div>
+      <div class="col"><span class="k">Built area</span><span class="v">5,200 m²</span></div>
+      <div class="col"><span class="k">Levels</span><span class="v">Mezzanine +3.94 · Roof +7.87</span></div>
+      <div class="col"><span class="k">Developed by</span><span class="v">KUBIK STUDIO</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROLOGUE ============================ -->
+<section class="chapter" id="prologue">
+  <div class="wrap prologue-intro">
+    <div class="eyebrow" data-reveal>Prologue · The Studio</div>
+    <p class="big-statement" data-reveal style="margin-top:28px">
+      We build buildings <b>twice</b>. <span class="muted">Once in data, perfectly coordinated — so the second time, in concrete, holds no surprises.</span>
+    </p>
+  </div>
+
+  <div class="wrap grid12 studio-split chapter-pad" style="padding-top:0">
+    <div class="s-left">
+      <div class="mono" data-reveal>About KUBIK STUDIO</div>
+      <p class="lead" data-reveal style="--d:80ms;margin-top:20px">
+        A BIM consultancy translating architecture into intelligent, coordinated digital models — from massing to construction-ready LOD 350.
+      </p>
+    </div>
+    <div class="s-right" data-stagger="120">
+      <div class="belief" data-reveal>
+        <span class="num">01 — Mission</span>
+        <h4 class="display">Resolve the building before it is built.</h4>
+        <p>Every discipline modelled, federated and clash-tested in a single source of truth, eliminating conflict before it reaches the site.</p>
+      </div>
+      <div class="belief" data-reveal>
+        <span class="num">02 — Vision</span>
+        <h4 class="display">The digital twin as the project itself.</h4>
+        <p>Not documentation about a building — a living, navigable model that is the building, ahead of construction.</p>
+      </div>
+      <div class="belief" data-reveal>
+        <span class="num">03 — Values</span>
+        <h4 class="display">Precision · Coordination · Craft.</h4>
+        <p>Technical rigour held to the same standard as architectural quality. Nothing approximate, nothing decorative.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Organization chart -->
+  <div class="wrap chapter-pad" style="padding-top:0">
+    <div class="mono" data-reveal style="margin-bottom:48px">The Team · Organization</div>
+    <div class="orgchart" data-reveal="fade">
+      <div class="org-node lead" data-reveal>
+        <div class="role">BIM Director</div>
+        <div class="name">Studio Lead</div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-row" data-stagger="90">
+        <div class="org-node" data-reveal><div class="role">Architecture</div><div class="name">Discipline Lead</div></div>
+        <div class="org-node" data-reveal><div class="role">Structure</div><div class="name">Discipline Lead</div></div>
+        <div class="org-node" data-reveal><div class="role">MEP Systems</div><div class="name">Discipline Lead</div></div>
+        <div class="org-node" data-reveal><div class="role">Coordination</div><div class="name">BIM Manager</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team strip -->
+  <div class="wrap" style="padding-bottom:clamp(110px,16vh,230px)">
+    <div class="team-strip" data-stagger="80">
+      <div class="team-card" data-reveal>
+        <div class="tc-img"><div class="ph fill" data-ratio="3/4"><div class="ph__label"><span class="pt">Portrait</span><span class="ps">3:4</span><span class="pdrop">▢ drop photo</span></div></div></div>
+        <div class="tc-meta"><div class="tc-name">Team Member</div><div class="tc-role">BIM Coordinator</div></div>
+      </div>
+      <div class="team-card" data-reveal>
+        <div class="tc-img"><div class="ph fill" data-ratio="3/4"><div class="ph__label"><span class="pt">Portrait</span><span class="ps">3:4</span><span class="pdrop">▢ drop photo</span></div></div></div>
+        <div class="tc-meta"><div class="tc-name">Team Member</div><div class="tc-role">Architecture Modeller</div></div>
+      </div>
+      <div class="team-card" data-reveal>
+        <div class="tc-img"><div class="ph fill" data-ratio="3/4"><div class="ph__label"><span class="pt">Portrait</span><span class="ps">3:4</span><span class="pdrop">▢ drop photo</span></div></div></div>
+        <div class="tc-meta"><div class="tc-name">Team Member</div><div class="tc-role">Structural Modeller</div></div>
+      </div>
+      <div class="team-card" data-reveal>
+        <div class="tc-img"><div class="ph fill" data-ratio="3/4"><div class="ph__label"><span class="pt">Portrait</span><span class="ps">3:4</span><span class="pdrop">▢ drop photo</span></div></div></div>
+        <div class="tc-meta"><div class="tc-name">Team Member</div><div class="tc-role">MEP Modeller</div></div>
+      </div>
+      <div class="team-card" data-reveal>
+        <div class="tc-img"><div class="ph fill" data-ratio="3/4"><div class="ph__label"><span class="pt">Portrait</span><span class="ps">3:4</span><span class="pdrop">▢ drop photo</span></div></div></div>
+        <div class="tc-meta"><div class="tc-name">Team Member</div><div class="tc-role">Clash Coordinator</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 01 — THE CHALLENGE ============================ -->
+<section class="chapter hero-full" id="ch01" data-mouse>
+  <div class="hero-media" data-parallax="0.12" data-mouse-depth="20">
+    <div class="ph is-dark" data-ratio="16/9"><div class="ph__label"><span class="pt">Exterior Hero Render</span><span class="ps">Fullscreen · 16:9 · or looping video</span><span class="pdrop">▢ drop final render / mp4</span></div></div>
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="wrap">
+    <div class="chapter-head">
+      <div class="ch-index" data-reveal>
+        <span class="ch-num">Chapter 01</span>
+        <span class="ch-kicker">The Challenge</span>
+      </div>
+      <h2 class="display" data-words>Suburbia <em>Satélite</em></h2>
+    </div>
+    <div class="hero-facts" data-stagger="90">
+      <div class="f" data-reveal><span class="k">Location</span><span class="v" style="font-size:clamp(1rem,1.6vw,1.3rem)">Blvd. Manuel Ávila Camacho 2495<br />Cd. Satélite · 53100 Naucalpan</span></div>
+      <div class="f" data-reveal><span class="k">Built area</span><span class="v"><span data-count="5200">0</span> <small>m²</small></span></div>
+      <div class="f" data-reveal><span class="k">Development</span><span class="v">LOD <span data-count="350">0</span></span></div>
+      <div class="f" data-reveal><span class="k">Disciplines</span><span class="v"><span data-count="6">0</span> <small>coordinated</small></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 02 — DIGITAL TWIN ============================ -->
+<section class="chapter" id="ch02">
+  <div class="wrap chapter-pad" style="padding-bottom:clamp(40px,8vh,90px)">
+    <div class="chapter-head">
+      <div class="ch-index" data-reveal>
+        <span class="ch-num">Chapter 02</span>
+        <span class="ch-kicker">From Building to Digital Twin</span>
+      </div>
+      <h2 class="display" data-reveal style="--d:120ms">The model assembles, <em>layer by layer.</em></h2>
+      <p class="lead" data-reveal style="--d:220ms">Scroll to watch the building rise — from an abstract volume to a fully federated, multidisciplinary digital twin.</p>
+    </div>
+  </div>
+
+  <!-- Sticky scroll sequence: ~5 viewport-heights of scroll per stage -->
+  <div class="seq" style="height:560vh">
+    <div class="seq-sticky">
+      <div class="seq-stage">
+        <div class="seq-layer active"><div class="ph" data-ratio="16/9"><div class="ph__label"><span class="pt">01 · Massing Volume</span><span class="ps">Image sequence frame</span><span class="pdrop">▢ drop massing render</span></div></div></div>
+        <div class="seq-layer"><div class="ph" data-ratio="16/9"><div class="ph__label"><span class="pt">02 · Architecture</span><span class="ps">Image sequence frame</span><span class="pdrop">▢ drop architecture render</span></div></div></div>
+        <div class="seq-layer"><div class="ph" data-ratio="16/9"><div class="ph__label"><span class="pt">03 · Structure</span><span class="ps">Image sequence frame</span><span class="pdrop">▢ drop structural render</span></div></div></div>
+        <div class="seq-layer"><div class="ph" data-ratio="16/9"><div class="ph__label"><span class="pt">04 · MEP Systems</span><span class="ps">Image sequence frame</span><span class="pdrop">▢ drop MEP render</span></div></div></div>
+        <div class="seq-layer"><div class="ph" data-ratio="16/9"><div class="ph__label"><span class="pt">05 · Federated Model</span><span class="ps">Image sequence frame</span><span class="pdrop">▢ drop federated render</span></div></div></div>
+      </div>
+      <div class="seq-overlay">
+        <div class="wrap">
+          <div class="seq-step-num">STEP 01 / 05</div>
+          <div class="seq-stages-list">
+            <div class="seq-stage-item on"><span class="si-n">01</span> Massing</div>
+            <div class="seq-stage-item"><span class="si-n">02</span> Architecture</div>
+            <div class="seq-stage-item"><span class="si-n">03</span> Structure</div>
+            <div class="seq-stage-item"><span class="si-n">04</span> MEP Systems</div>
+            <div class="seq-stage-item"><span class="si-n">05</span> Federated</div>
+          </div>
+          <p class="seq-caption">Volumetric study — site envelope, orientation and program distribution across 5,200 m².</p>
+        </div>
+      </div>
+      <div class="seq-progress"><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 03 — BIM ANATOMY ============================ -->
+<section class="chapter" id="ch03">
+  <div class="wrap chapter-pad" style="padding-bottom:clamp(20px,4vh,60px)">
+    <div class="chapter-head">
+      <div class="ch-index" data-reveal>
+        <span class="ch-num">Chapter 03</span>
+        <span class="ch-kicker">BIM Anatomy</span>
+      </div>
+      <h2 class="display" data-reveal style="--d:120ms">Every discipline, <em>revealed alone.</em></h2>
+      <p class="lead" data-reveal style="--d:220ms">Six coordinated models, each modelled to LOD 350 — explored independently through exploded and axonometric views.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- Architecture -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 01 / 06</span>
+        <h3 data-reveal style="--d:60ms">Architecture</h3>
+        <p data-reveal style="--d:120ms">The spatial envelope — walls, slabs, openings, vertical circulation and finishes that define the building's experience and program.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Envelope</span><span>Partitions</span><span>Circulation</span><span>Finishes · LOD 350</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">2</span><span class="dk">Levels modelled</span></div>
+          <div class="ds"><span class="dv">+7.87</span><span class="dk">Roof elevation (m)</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">Architecture Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+
+    <!-- Structure -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 02 / 06</span>
+        <h3 data-reveal style="--d:60ms">Structure</h3>
+        <p data-reveal style="--d:120ms">The load path — foundations, columns, beams and the mezzanine and roof slabs that carry the building at +3.94 m and +7.87 m.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Foundations</span><span>Columns</span><span>Beams</span><span>Slabs</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">+3.94</span><span class="dk">Mezzanine (m)</span></div>
+          <div class="ds"><span class="dv">RC</span><span class="dk">Primary system</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">Structural Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+
+    <!-- Hydraulics -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 03 / 06</span>
+        <h3 data-reveal style="--d:60ms">Hydraulic Systems</h3>
+        <p data-reveal style="--d:120ms">Water supply, sanitary and storm drainage routed in three dimensions and coordinated against structure and architecture.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Supply</span><span>Sanitary</span><span>Storm</span><span>Risers</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">3D</span><span class="dk">Routed network</span></div>
+          <div class="ds"><span class="dv">LOD 350</span><span class="dk">Detail level</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">Hydraulic Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+
+    <!-- HVAC -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 04 / 06</span>
+        <h3 data-reveal style="--d:60ms">HVAC</h3>
+        <p data-reveal style="--d:120ms">Air handling, ductwork and distribution — the largest spatial systems, coordinated to preserve ceiling heights and clearances.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Ductwork</span><span>Equipment</span><span>Diffusers</span><span>Clearances</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">3D</span><span class="dk">Duct routing</span></div>
+          <div class="ds"><span class="dv">∅</span><span class="dk">Clash-free</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">HVAC Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+
+    <!-- Fire Protection -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 05 / 06</span>
+        <h3 data-reveal style="--d:60ms">Fire Protection</h3>
+        <p data-reveal style="--d:120ms">Sprinkler networks, standpipes and coverage modelled to verify protection across every occupied zone of the building.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Sprinklers</span><span>Standpipes</span><span>Coverage</span><span>Zoning</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">100%</span><span class="dk">Zone coverage</span></div>
+          <div class="ds"><span class="dv">NFPA</span><span class="dk">Reference standard</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">Fire Protection Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+
+    <!-- Electrical -->
+    <div class="disc-row">
+      <div class="disc-text" data-stagger="90">
+        <span class="d-idx" data-reveal>Discipline 06 / 06</span>
+        <h3 data-reveal style="--d:60ms">Electrical Systems</h3>
+        <p data-reveal style="--d:120ms">Power distribution, lighting, cable trays and panel locations — coordinated with every other system in the federated model.</p>
+        <div class="disc-tags" data-reveal style="--d:180ms"><span>Distribution</span><span>Lighting</span><span>Trays</span><span>Panels</span></div>
+        <div class="disc-stat" data-reveal style="--d:240ms">
+          <div class="ds"><span class="dv">3D</span><span class="dk">Routed trays</span></div>
+          <div class="ds"><span class="dv">LOD 350</span><span class="dk">Detail level</span></div>
+        </div>
+      </div>
+      <div class="disc-visual" data-reveal="mask">
+        <span class="explode-tag">GLB · Exploded view</span>
+        <div class="ph" data-ratio="4/3"><div class="ph__label"><span class="pt">Electrical Model</span><span class="ps">Axonometric / GLB orbit</span><span class="pdrop">▢ drop GLB · walkthrough</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 04 — COORDINATION ============================ -->
+<section class="chapter" id="ch04" style="background:var(--bg-2)">
+  <div class="wrap chapter-pad" style="padding-bottom:clamp(40px,7vh,80px)">
+    <div class="chapter-head">
+      <div class="ch-index" data-reveal>
+        <span class="ch-num">Chapter 04</span>
+        <span class="ch-kicker">Coordination</span>
+      </div>
+      <h2 class="display" data-reveal style="--d:120ms">Where systems meet, <em>we resolve.</em></h2>
+      <p class="lead" data-reveal style="--d:220ms">The federated model is tested in Navisworks. Every clash is detected, logged and resolved — before it reaches the site.</p>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:clamp(40px,7vh,80px)">
+    <div class="mono" data-reveal style="margin-bottom:18px">Clash Detection · Drag to compare conflict ↔ resolution</div>
+    <div class="compare" data-reveal="fade">
+      <div class="cmp-side cmp-before">
+        <div class="ph is-dark fill"><div class="ph__label"><span class="pt">Federated Model · Conflict</span><span class="ps">Navisworks snapshot</span><span class="pdrop">▢ drop clash view</span></div></div>
+        <span class="cmp-tag l">Before · Conflict</span>
+        <!-- clash markers -->
+        <div class="clash" style="left:34%;top:42%"></div>
+        <div class="clash" style="left:58%;top:60%"></div>
+        <div class="clash" style="left:71%;top:34%"></div>
+        <div class="clash" style="left:46%;top:72%"></div>
+      </div>
+      <div class="cmp-side cmp-after">
+        <div class="ph is-dark fill"><div class="ph__label"><span class="pt">Federated Model · Resolved</span><span class="ps">Navisworks snapshot</span><span class="pdrop">▢ drop resolved view</span></div></div>
+        <span class="cmp-tag r">After · Resolved</span>
+      </div>
+      <div class="cmp-handle"><div class="knob">↔</div></div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:clamp(110px,16vh,230px)">
+    <div class="coord-metrics" data-stagger="100">
+      <div class="cm" data-reveal><div class="cmv"><span data-count="6">0</span></div><div class="cmk">Disciplines federated</div></div>
+      <div class="cm" data-reveal><div class="cmv"><span data-count="248">0</span></div><div class="cmk">Clashes detected</div></div>
+      <div class="cm" data-reveal><div class="cmv"><span data-count="100">0</span><span class="u">%</span></div><div class="cmk">Conflicts resolved</div></div>
+      <div class="cm" data-reveal><div class="cmv"><span data-count="0">0</span></div><div class="cmk">Open on site</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 05 — DEVELOPMENT ============================ -->
+<section class="chapter" id="ch05">
+  <div class="wrap chapter-pad" style="padding-bottom:clamp(40px,7vh,80px)">
+    <div class="chapter-head">
+      <div class="ch-index" data-reveal>
+        <span class="ch-num">Chapter 05</span>
+        <span class="ch-kicker">Project Development</span>
+      </div>
+      <h2 class="display" data-reveal style="--d:120ms">A model that <em>grew on schedule.</em></h2>
+      <p class="lead" data-reveal style="--d:220ms">From kickoff to delivery — the development stages, milestones and progress that built the digital twin.</p>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="wrap" style="padding-bottom:clamp(60px,9vh,120px)">
+    <div class="timeline">
+      <div class="tl-row" style="--pct:100%">
+        <div class="tl-phase">Phase 01</div>
+        <div class="tl-body">
+          <h4 class="display">Setup &amp; Massing</h4>
+          <p>BIM execution plan, shared coordinates, level structure and volumetric massing established.</p>
+          <div class="tl-bar"><i></i></div>
+          <span class="tl-pct">100% · Complete</span>
+        </div>
+      </div>
+      <div class="tl-row" style="--pct:100%">
+        <div class="tl-phase">Phase 02</div>
+        <div class="tl-body">
+          <h4 class="display">Discipline Modelling</h4>
+          <p>Architecture, structure and MEP modelled in parallel to LOD 350 against the shared reference.</p>
+          <div class="tl-bar"><i></i></div>
+          <span class="tl-pct">100% · Complete</span>
+        </div>
+      </div>
+      <div class="tl-row" style="--pct:100%">
+        <div class="tl-phase">Phase 03</div>
+        <div class="tl-body">
+          <h4 class="display">Federation &amp; Clash</h4>
+          <p>Models federated in Navisworks, clash detection cycles run and conflicts resolved by discipline.</p>
+          <div class="tl-bar"><i></i></div>
+          <span class="tl-pct">100% · Complete</span>
+        </div>
+      </div>
+      <div class="tl-row" style="--pct:100%">
+        <div class="tl-phase">Phase 04</div>
+        <div class="tl-body">
+          <h4 class="display">Delivery &amp; Documentation</h4>
+          <p>Coordinated deliverables, walkthroughs and the federated LOD 350 model issued to the client.</p>
+          <div class="tl-bar"><i></i></div>
+          <span class="tl-pct">100% · Delivered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll-driven charts -->
+  <div class="wrap" style="padding-bottom:clamp(110px,16vh,230px)">
+    <div class="mono" data-reveal style="margin-bottom:28px">Progress Tracking · Model Metrics</div>
+    <div class="charts">
+      <div class="chart-cell" style="--ro:0">
+        <div class="cc-k">Overall completion</div>
+        <div class="cc-v"><span data-count="100">0</span>%</div>
+        <svg class="ring" viewBox="0 0 120 120">
+          <circle class="track" cx="60" cy="60" r="54"></circle>
+          <circle class="val" cx="60" cy="60" r="54"></circle>
+        </svg>
+      </div>
+      <div class="chart-cell">
+        <div class="cc-k">Model elements by discipline</div>
+        <div class="cc-v"><span data-count="6">0</span></div>
+        <div class="bars">
+          <div class="b" style="--bh:78%;--bd:0ms"><i></i></div>
+          <div class="b" style="--bh:62%;--bd:80ms"><i></i></div>
+          <div class="b" style="--bh:48%;--bd:160ms"><i></i></div>
+          <div class="b" style="--bh:90%;--bd:240ms"><i></i></div>
+          <div class="b" style="--bh:40%;--bd:320ms"><i></i></div>
+          <div class="b" style="--bh:55%;--bd:400ms"><i></i></div>
+        </div>
+      </div>
+      <div class="chart-cell">
+        <div class="cc-k">Coordination cycles</div>
+        <div class="cc-v"><span data-count="12">0</span></div>
+        <div class="bars">
+          <div class="b" style="--bh:30%;--bd:0ms"><i></i></div>
+          <div class="b" style="--bh:45%;--bd:70ms"><i></i></div>
+          <div class="b" style="--bh:58%;--bd:140ms"><i></i></div>
+          <div class="b" style="--bh:66%;--bd:210ms"><i></i></div>
+          <div class="b" style="--bh:80%;--bd:280ms"><i></i></div>
+          <div class="b" style="--bh:100%;--bd:350ms"><i></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHAPTER 06 — FINAL RESULT ============================ -->
+<section class="chapter" id="ch06">
+  <div class="final-hero" data-mouse>
+    <div class="ph is-dark" data-parallax="0.1" data-mouse-depth="16"><div class="ph__label"><span class="pt">Final Cinematic Render</span><span class="ps">Fullscreen · video reveal</span><span class="pdrop">▢ drop hero render / film</span></div></div>
+    <div class="scrim"></div>
+    <div class="wrap">
+      <div class="eyebrow" data-reveal style="justify-content:center;margin-bottom:24px">Chapter 06 · Final Result</div>
+      <h2 class="display" data-words>The building, <em>complete in data.</em></h2>
+    </div>
+  </div>
+
+  <div class="wrap chapter-pad">
+    <div class="final-gallery" data-stagger="120">
+      <div class="g1" data-reveal="mask"><div class="ph" data-ratio="3/2"><div class="ph__label"><span class="pt">Exterior Render</span><span class="ps">3:2</span><span class="pdrop">▢ drop render</span></div></div></div>
+      <div class="g2" data-reveal="mask"><div class="ph" data-ratio="3/4"><div class="ph__label"><span class="pt">Interior Render</span><span class="ps">3:4</span><span class="pdrop">▢ drop render</span></div></div></div>
+      <div class="g3" data-reveal="mask"><div class="ph" data-ratio="1/1"><div class="ph__label"><span class="pt">Federated Model</span><span class="ps">1:1</span><span class="pdrop">▢ drop view</span></div></div></div>
+      <div class="g4" data-reveal="mask"><div class="ph video" data-ratio="16/9"><div class="ph__label"><span class="play"></span><span class="pt">Final Walkthrough</span><span class="ps">16:9 · video</span><span class="pdrop">▢ drop film</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ END ============================ -->
+<section class="end" id="end">
+  <div class="grid-lines" data-parallax="0.05"></div>
+  <div class="wrap">
+    <div class="eyebrow" data-reveal style="justify-content:center;margin-bottom:30px">End of Exhibition</div>
+    <h2 class="display" data-reveal>Suburbia <em>Satélite</em></h2>
+    <p class="end-sub" data-reveal style="--d:140ms;margin-top:26px">BIM Model · LOD 350</p>
+    <div class="end-by" data-reveal style="--d:240ms">Developed by <b>KUBIK STUDIO</b></div>
+    <div class="end-credits" data-stagger="80">
+      <div class="ec" data-reveal><span class="k">Disciplines</span><span class="v">Architecture · Structure · MEP</span></div>
+      <div class="ec" data-reveal><span class="k">Area</span><span class="v">5,200 m²</span></div>
+      <div class="ec" data-reveal><span class="k">Location</span><span class="v">Cd. Satélite · Naucalpan, México</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
