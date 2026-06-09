@@ -633,6 +633,70 @@ section.chapter { position: relative; }
 
 .section-rule { height: 1px; background: var(--line); }
 
+/* ====================================================================== */
+/*  UPLOAD SYSTEM                                                         */
+/* ====================================================================== */
+
+/* Make every placeholder a clickable upload zone */
+.ph {
+  cursor: pointer;
+}
+.ph:hover::before,
+.ph:hover::after {
+  border-color: var(--accent-1);
+  transition: border-color 0.3s var(--ease);
+}
+
+/* Hover overlay hint */
+.ph .upload-hint {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: rgba(15,17,21,0.72);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+}
+.ph:hover .upload-hint { opacity: 1; }
+.ph .upload-hint .uh-icon {
+  width: 48px; height: 48px; border: 1px solid var(--accent-1); border-radius: 50%;
+  display: grid; place-items: center;
+}
+.ph .upload-hint .uh-icon::after {
+  content: "↑";
+  font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent-1);
+}
+.ph .upload-hint .uh-text {
+  font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-2);
+}
+
+/* Uploaded media fills the frame */
+.ph.has-media .ph__label { display: none; }
+.ph.has-media .upload-hint .uh-text::before { content: "Replace · "; }
+.ph .ph-media {
+  position: absolute; inset: 0; z-index: 5;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+/* Remove button (appears on hover when media is loaded) */
+.ph .upload-remove {
+  position: absolute; top: 12px; left: 12px; z-index: 20;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(15,17,21,0.85); border: 1px solid var(--line-strong);
+  display: grid; place-items: center; cursor: pointer;
+  font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-2);
+  opacity: 0; transition: opacity 0.2s var(--ease), color 0.2s;
+  pointer-events: none;
+}
+.ph:hover .upload-remove { opacity: 1; pointer-events: auto; }
+.ph .upload-remove:hover { color: var(--accent-1); border-color: var(--accent-1); }
+
+/* Upload progress flash */
+@keyframes uploadflash { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
+.ph.uploading { animation: uploadflash 0.6s var(--ease) 2; }
+
 /* small helpers */
 .stack-lg { display: flex; flex-direction: column; gap: clamp(40px,7vh,96px); }
 .stack-md { display: flex; flex-direction: column; gap: clamp(24px,4vh,56px); }

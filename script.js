@@ -32,8 +32,6 @@
     }
     requestAnimationFrame(tick);
 
-    // Hard fallback: rAF is throttled in background tabs and would otherwise
-    // leave the page locked forever. setTimeout still fires — guarantee close.
     var hardClose = setTimeout(close, dur + 1400);
 
     function close() {
@@ -78,7 +76,6 @@
     });
   }
 
-  // Safety net: force-reveal anything already on screen if IO is throttled.
   function revealFallback() {
     var vh = window.innerHeight;
     document.querySelectorAll('[data-reveal]:not(.in), .reveal-words:not(.in)').forEach(function (el) {
@@ -87,7 +84,6 @@
     });
   }
 
-  // stagger delays from data-stagger containers
   function applyStagger() {
     document.querySelectorAll('[data-stagger]').forEach(function (c) {
       var step = parseInt(c.getAttribute('data-stagger'), 10) || 90;
@@ -96,7 +92,6 @@
     });
   }
 
-  /* split headlines into words for word reveal — preserves <em> accent */
   function splitWords() {
     document.querySelectorAll('[data-words]').forEach(function (el) {
       var nodes = [].slice.call(el.childNodes);
@@ -130,7 +125,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  PARALLAX + scroll-driven chrome (single rAF loop)                */
+  /*  PARALLAX + scroll chrome                                         */
   /* ---------------------------------------------------------------- */
   var parallaxEls = [];
   var ticking = false;
@@ -146,11 +141,9 @@
       var docH = document.documentElement.scrollHeight - vh;
       var sy = window.scrollY;
 
-      // progress bar
       var bar = document.querySelector('.progress-bar');
       if (bar) bar.style.width = (docH > 0 ? (sy / docH) * 100 : 0) + '%';
 
-      // parallax
       if (!reduce) {
         for (var i = 0; i < parallaxEls.length; i++) {
           var el = parallaxEls[i];
@@ -161,11 +154,8 @@
         }
       }
 
-      // sticky sequence
       updateSequence(sy, vh);
-      // reveal fallback (cheap, idempotent) — guards against throttled IO
       revealFallback();
-      // scroll cue fade
       var cue = document.querySelector('.scrollcue');
       if (cue) cue.style.opacity = sy > vh * 0.5 ? '0' : '1';
 
@@ -174,7 +164,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  CH02 — STICKY SCROLL SEQUENCE                                     */
+  /*  STICKY SCROLL SEQUENCE                                           */
   /* ---------------------------------------------------------------- */
   var seqData = null;
   function setupSequence() {
@@ -218,7 +208,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  CHAPTER NAV (active state)                                       */
+  /*  CHAPTER NAV                                                      */
   /* ---------------------------------------------------------------- */
   function setupChapterNav() {
     var buttons = [].slice.call(document.querySelectorAll('.chapternav button'));
@@ -246,7 +236,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  CH04 — BEFORE / AFTER COMPARISON                                 */
+  /*  BEFORE / AFTER COMPARISON                                        */
   /* ---------------------------------------------------------------- */
   function setupCompare() {
     document.querySelectorAll('.compare').forEach(function (cmp) {
@@ -260,7 +250,11 @@
         if (after) after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
         if (handle) handle.style.left = pct + '%';
       }
-      function down(e) { dragging = true; setPos(pt(e)); e.preventDefault(); }
+      function down(e) {
+        // Don't start drag if clicking an upload element
+        if (e.target.closest('.ph')) return;
+        dragging = true; setPos(pt(e)); e.preventDefault();
+      }
       function move(e) { if (dragging) setPos(pt(e)); }
       function up() { dragging = false; }
       function pt(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
@@ -270,7 +264,6 @@
       window.addEventListener('touchmove', move, { passive: false });
       window.addEventListener('mouseup', up);
       window.addEventListener('touchend', up);
-      // reveal clash markers
       var io = new IntersectionObserver(function (en) {
         en.forEach(function (x) { if (x.isIntersecting) { cmp.classList.add('in'); io.unobserve(cmp); } });
       }, { threshold: 0.3 });
@@ -279,7 +272,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  COUNTERS (animate numbers when visible)                          */
+  /*  COUNTERS                                                         */
   /* ---------------------------------------------------------------- */
   function setupCounters() {
     function format(target, dec) {
@@ -303,12 +296,10 @@
           else { el.textContent = format(target, dec); done = true; }
         }
         requestAnimationFrame(tick);
-        // Safety: rAF is throttled in background tabs — force final value.
         setTimeout(function () { if (!done) el.textContent = format(target, dec); }, dur + 1200);
       });
     }, { threshold: 0.5 });
     document.querySelectorAll('[data-count]').forEach(function (el) { io.observe(el); });
-    // Hard fallback if the observer never fires at all.
     setTimeout(function () {
       document.querySelectorAll('[data-count]').forEach(function (el) {
         if (el.textContent.trim() === '0') {
@@ -319,7 +310,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  IN-VIEW class for charts / timeline (CSS-driven fills)           */
+  /*  IN-VIEW for charts / timeline                                    */
   /* ---------------------------------------------------------------- */
   function setupInView() {
     var io = new IntersectionObserver(function (entries) {
@@ -331,7 +322,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  HERO mouse parallax                                              */
+  /*  MOUSE PARALLAX                                                   */
   /* ---------------------------------------------------------------- */
   function setupMouseParallax() {
     if (reduce) return;
@@ -349,6 +340,151 @@
     });
   }
 
+  /* ================================================================ */
+  /*  UPLOAD SYSTEM                                                    */
+  /*  Click any .ph placeholder to upload an image or video.          */
+  /*  Files are stored in localStorage as base64 and restored on load. */
+  /* ================================================================ */
+  var STORE_KEY = 'kubik_media_v1';
+
+  /* Give every .ph a stable key derived from its label text */
+  function phKey(el) {
+    var label = el.querySelector('.pt');
+    return label ? label.textContent.trim().replace(/\s+/g, '_').toLowerCase() : null;
+  }
+
+  /* Save a base64 dataURL to localStorage */
+  function saveMedia(key, dataURL, mime) {
+    try {
+      var store = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+      store[key] = { url: dataURL, mime: mime };
+      localStorage.setItem(STORE_KEY, JSON.stringify(store));
+    } catch (e) {
+      // localStorage full — silent fail (media still shows in session)
+      console.warn('KUBIK: localStorage full, media will not persist across refreshes.', e);
+    }
+  }
+
+  /* Load all saved media from localStorage */
+  function loadAllMedia() {
+    try {
+      return JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    } catch (e) { return {}; }
+  }
+
+  /* Remove a media entry */
+  function clearMedia(key) {
+    try {
+      var store = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+      delete store[key];
+      localStorage.setItem(STORE_KEY, JSON.stringify(store));
+    } catch (e) {}
+  }
+
+  /* Apply media (img or video) into a .ph element */
+  function applyMedia(ph, dataURL, mime) {
+    // Remove any previous media element
+    var old = ph.querySelector('.ph-media');
+    if (old) old.parentNode.removeChild(old);
+
+    var isVideo = mime && mime.startsWith('video/');
+    var media;
+
+    if (isVideo) {
+      media = document.createElement('video');
+      media.autoplay = true;
+      media.loop = true;
+      media.muted = true;
+      media.playsInline = true;
+      media.src = dataURL;
+    } else {
+      media = document.createElement('img');
+      media.src = dataURL;
+      media.alt = '';
+    }
+
+    media.className = 'ph-media';
+    ph.insertBefore(media, ph.firstChild);
+    ph.classList.add('has-media');
+  }
+
+  /* Wire up a single .ph for uploading */
+  function setupUploadZone(ph) {
+    var key = phKey(ph);
+    if (!key) return;
+
+    // Inject hover hint UI
+    var hint = document.createElement('div');
+    hint.className = 'upload-hint';
+    hint.innerHTML = '<div class="uh-icon"></div><span class="uh-text">Click to upload</span>';
+    ph.appendChild(hint);
+
+    // Inject remove button
+    var removeBtn = document.createElement('button');
+    removeBtn.className = 'upload-remove';
+    removeBtn.title = 'Remove media';
+    removeBtn.textContent = '✕';
+    ph.appendChild(removeBtn);
+
+    // Hidden file input
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*,video/mp4,video/webm,video/ogg';
+    input.style.cssText = 'position:absolute;width:0;height:0;opacity:0;pointer-events:none;';
+    ph.appendChild(input);
+
+    // Click ph → open file picker (but not when clicking the remove button)
+    ph.addEventListener('click', function (e) {
+      if (e.target === removeBtn || removeBtn.contains(e.target)) return;
+      input.click();
+    });
+
+    // File selected
+    input.addEventListener('change', function () {
+      var file = input.files && input.files[0];
+      if (!file) return;
+      ph.classList.add('uploading');
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        var dataURL = ev.target.result;
+        applyMedia(ph, dataURL, file.type);
+        saveMedia(key, dataURL, file.type);
+        ph.classList.remove('uploading');
+      };
+      reader.readAsDataURL(file);
+      // Reset so same file can be re-picked
+      input.value = '';
+    });
+
+    // Remove button
+    removeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var old = ph.querySelector('.ph-media');
+      if (old) old.parentNode.removeChild(old);
+      ph.classList.remove('has-media');
+      clearMedia(key);
+    });
+  }
+
+  /* Restore persisted media on page load */
+  function restoreMedia() {
+    var store = loadAllMedia();
+    document.querySelectorAll('.ph').forEach(function (ph) {
+      var key = phKey(ph);
+      if (key && store[key]) {
+        applyMedia(ph, store[key].url, store[key].mime);
+      }
+    });
+  }
+
+  /* Set up all upload zones */
+  function setupUploads() {
+    document.querySelectorAll('.ph').forEach(function (ph) {
+      setupUploadZone(ph);
+    });
+    restoreMedia();
+  }
+
   /* ---------------------------------------------------------------- */
   /*  INIT                                                             */
   /* ---------------------------------------------------------------- */
@@ -363,6 +499,7 @@
     setupCounters();
     setupInView();
     setupMouseParallax();
+    setupUploads();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     preloader();
