@@ -155,12 +155,52 @@
       }
 
       updateSequence(sy, vh);
+      updateHeroScrub(sy, vh);
       revealFallback();
       var cue = document.querySelector('.scrollcue');
       if (cue) cue.style.opacity = sy > vh * 0.5 ? '0' : '1';
 
       ticking = false;
     });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /*  CH01 — HERO VIDEO SCROLL-SCRUB                                  */
+  /*  Maps scroll progress through #ch01 to video.currentTime         */
+  /* ---------------------------------------------------------------- */
+  var scrubVideo = null;
+  var scrubSection = null;
+  var scrubReady = false;
+
+  function setupHeroScrub() {
+    scrubVideo = document.getElementById('hero-scrub');
+    scrubSection = document.getElementById('ch01');
+    if (!scrubVideo || !scrubSection) return;
+
+    // Pause so the browser doesn't auto-advance
+    scrubVideo.pause();
+
+    function onReady() {
+      scrubReady = true;
+      // Seek to frame 0 immediately so the poster shows the first frame
+      scrubVideo.currentTime = 0;
+    }
+
+    if (scrubVideo.readyState >= 1) {
+      onReady();
+    } else {
+      scrubVideo.addEventListener('loadedmetadata', onReady, { once: true });
+    }
+  }
+
+  function updateHeroScrub(sy, vh) {
+    if (!scrubReady || !scrubVideo || !scrubSection) return;
+    var r = scrubSection.getBoundingClientRect();
+    var sectionH = scrubSection.offsetHeight;
+    // Progress: 0 when section top hits viewport top → 1 when section bottom leaves
+    var progress = Math.max(0, Math.min(1, -r.top / (sectionH - vh)));
+    var target = progress * scrubVideo.duration;
+    if (isFinite(target)) scrubVideo.currentTime = target;
   }
 
   /* ---------------------------------------------------------------- */
@@ -500,6 +540,7 @@
     setupInView();
     setupMouseParallax();
     setupUploads();
+    setupHeroScrub();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     preloader();
