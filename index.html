@@ -149,30 +149,42 @@
   </div>
 </section>
 
-<!-- ============================ CHAPTER 01 — THE CHALLENGE ============================ -->
-<section class="chapter hero-full" id="ch01" data-mouse>
-  <div class="hero-media" data-parallax="0.12" data-mouse-depth="20">
-    <div class="ph is-dark has-media" data-ratio="16/9">
-      <video class="ph-media" id="hero-scrub" muted playsinline preload="auto" src="media/hero_exterior.mp4"></video>
-      <div class="ph__label"><span class="pt">Exterior Hero Render</span><span class="ps">Fullscreen · 16:9 · or looping video</span><span class="pdrop">▢ drop final render / mp4</span></div>
-    </div>
-  </div>
-  <div class="hero-scrim"></div>
-  <div class="wrap">
-    <div class="chapter-head">
-      <div class="ch-index" data-reveal>
-        <span class="ch-num">Chapter 01</span>
-        <span class="ch-kicker">The Challenge</span>
+<!-- ============================ CHAPTER 01 — THE CHALLENGE (scroll-scrub canvas) ============================ -->
+<section class="hero-seq" id="ch01">
+
+  <!-- Hidden video source — decoded to canvas on seek -->
+  <video id="hero-scrub-video" muted playsinline preload="auto"
+         src="media/hero_exterior.mp4"
+         style="position:absolute;width:0;height:0;opacity:0;pointer-events:none;"></video>
+
+  <!-- Sticky viewport: canvas + overlay -->
+  <div class="hero-seq-sticky">
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- gradient scrim -->
+    <div class="hero-seq-scrim"></div>
+
+    <!-- text overlay: fades in during last 25% of scroll -->
+    <div class="hero-seq-overlay wrap" id="hero-seq-overlay">
+      <div class="chapter-head">
+        <div class="ch-index">
+          <span class="ch-num">Chapter 01</span>
+          <span class="ch-kicker">The Challenge</span>
+        </div>
+        <h2 class="display" data-words>Suburbia <em>Satélite</em></h2>
       </div>
-      <h2 class="display" data-words>Suburbia <em>Satélite</em></h2>
+      <div class="hero-facts">
+        <div class="f"><span class="k">Location</span><span class="v" style="font-size:clamp(1rem,1.6vw,1.3rem)">Blvd. Manuel Ávila Camacho 2495<br />Cd. Satélite · 53100 Naucalpan</span></div>
+        <div class="f"><span class="k">Built area</span><span class="v"><span data-count="5200">0</span> <small>m²</small></span></div>
+        <div class="f"><span class="k">Development</span><span class="v">LOD <span data-count="350">0</span></span></div>
+        <div class="f"><span class="k">Disciplines</span><span class="v"><span data-count="6">0</span> <small>coordinated</small></span></div>
+      </div>
     </div>
-    <div class="hero-facts" data-stagger="90">
-      <div class="f" data-reveal><span class="k">Location</span><span class="v" style="font-size:clamp(1rem,1.6vw,1.3rem)">Blvd. Manuel Ávila Camacho 2495<br />Cd. Satélite · 53100 Naucalpan</span></div>
-      <div class="f" data-reveal><span class="k">Built area</span><span class="v"><span data-count="5200">0</span> <small>m²</small></span></div>
-      <div class="f" data-reveal><span class="k">Development</span><span class="v">LOD <span data-count="350">0</span></span></div>
-      <div class="f" data-reveal><span class="k">Disciplines</span><span class="v"><span data-count="6">0</span> <small>coordinated</small></span></div>
-    </div>
+
+    <!-- scroll progress bar -->
+    <div class="hero-seq-progress"><i id="hero-seq-bar"></i></div>
   </div>
+
 </section>
 
 <!-- ============================ CHAPTER 02 — DIGITAL TWIN ============================ -->

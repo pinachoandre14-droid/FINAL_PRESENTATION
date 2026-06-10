@@ -414,20 +414,60 @@ section.chapter { position: relative; }
 .chapter-head h2 em { font-style: normal; color: var(--accent-1); }
 
 /* ====================================================================== */
-/*  CH01 — THE CHALLENGE (hero)                                           */
+/*  CH01 — SCROLL-SCRUB CANVAS SEQUENCE                                  */
 /* ====================================================================== */
-.hero-full {
-  position: relative; min-height: 100vh; display: flex; align-items: flex-end;
-  overflow: hidden; padding-block: 120px clamp(48px, 8vh, 96px);
+
+/* Tall outer section — provides scroll distance (450vh = slow cinematic) */
+.hero-seq {
+  position: relative;
+  height: 450vh;
 }
-.hero-full .hero-media { position: absolute; inset: 0; z-index: 0; }
-.hero-full .hero-media .ph { height: 100%; border: 0; }
-.hero-full .hero-scrim {
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(180deg, rgba(15,17,21,0.55) 0%, rgba(15,17,21,0.15) 40%, rgba(15,17,21,0.92) 100%);
+
+/* Sticky viewport: stays pinned while section scrolls */
+.hero-seq-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-1);
 }
-.hero-full .wrap { position: relative; z-index: 2; width: 100%; }
-.hero-full h2 { font-size: clamp(3rem, 11vw, 13rem); line-height: 0.86; }
+
+/* Canvas fills the sticky frame, cover-fit handled in JS */
+#hero-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Bottom-to-top scrim so text is readable */
+.hero-seq-scrim {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(15,17,21,0.30) 0%,
+    transparent        35%,
+    transparent        50%,
+    rgba(15,17,21,0.70) 80%,
+    rgba(15,17,21,0.92) 100%
+  );
+}
+
+/* Text overlay — slides up + fades in when .visible is added by JS */
+.hero-seq-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+  padding-bottom: clamp(40px, 7vh, 80px);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-out), transform 1s var(--ease-out);
+  pointer-events: none;
+}
+.hero-seq-overlay.visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.hero-seq-overlay h2 { font-size: clamp(3rem, 11vw, 13rem); line-height: 0.86; }
 .hero-facts {
   display: flex; gap: clamp(28px, 5vw, 90px); flex-wrap: wrap;
   margin-top: clamp(28px,5vh,56px); padding-top: 26px; border-top: 1px solid var(--line-strong);
@@ -436,6 +476,17 @@ section.chapter { position: relative; }
 .hero-facts .f .k { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-3); }
 .hero-facts .f .v { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 2.6vw, 2.4rem); line-height: 1; }
 .hero-facts .f .v small { font-size: 0.5em; color: var(--text-2); font-weight: 400; }
+
+/* Thin progress line at the bottom of the sticky frame */
+.hero-seq-progress {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 4;
+  height: 2px; background: rgba(245,245,243,0.06);
+}
+.hero-seq-progress i {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
+  transition: width 0.05s linear;
+}
 
 /* ====================================================================== */
 /*  CH02 — STICKY SCROLL SEQUENCE                                         */

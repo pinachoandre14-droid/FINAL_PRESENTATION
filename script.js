@@ -165,42 +165,124 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /*  CH01 — HERO VIDEO SCROLL-SCRUB                                  */
-  /*  Maps scroll progress through #ch01 to video.currentTime         */
+  /*  CH01 — CANVAS SCROLL-SCRUB (Framer / Cloudflare pattern)        */
+  /*  Video is decoded off-screen; each sought frame is drawn to       */
+  /*  a fullscreen canvas — buttery smooth, no autoplay/loop.         */
   /* ---------------------------------------------------------------- */
-  var scrubVideo = null;
-  var scrubSection = null;
-  var scrubReady = false;
+  var _scrubVideo   = null;
+  var _scrubSection = null;
+  var _scrubCanvas  = null;
+  var _scrubCtx     = null;
+  var _scrubBar     = null;
+  var _scrubOverlay = null;
+  var _scrubReady   = false;
+  var _scrubSeeking = false;
+  var _scrubTarget  = 0;
+  var _overlayShown = false;
 
   function setupHeroScrub() {
-    scrubVideo = document.getElementById('hero-scrub');
-    scrubSection = document.getElementById('ch01');
-    if (!scrubVideo || !scrubSection) return;
+    _scrubVideo   = document.getElementById('hero-scrub-video');
+    _scrubSection = document.getElementById('ch01');
+    _scrubCanvas  = document.getElementById('hero-canvas');
+    _scrubBar     = document.getElementById('hero-seq-bar');
+    _scrubOverlay = document.getElementById('hero-seq-overlay');
+    if (!_scrubVideo || !_scrubSection || !_scrubCanvas) return;
 
-    // Pause so the browser doesn't auto-advance
-    scrubVideo.pause();
+    _scrubCtx = _scrubCanvas.getContext('2d');
 
-    function onReady() {
-      scrubReady = true;
-      // Seek to frame 0 immediately so the poster shows the first frame
-      scrubVideo.currentTime = 0;
+    /* ---- resize: retina-aware ---- */
+    function resizeCanvas() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      _scrubCanvas.width  = Math.floor(window.innerWidth  * dpr);
+      _scrubCanvas.height = Math.floor(window.innerHeight * dpr);
+      _scrubCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      _scrubCtx.imageSmoothingEnabled = true;
+      _scrubCtx.imageSmoothingQuality = 'high';
+      drawCurrentFrame();
     }
 
-    if (scrubVideo.readyState >= 1) {
-      onReady();
-    } else {
-      scrubVideo.addEventListener('loadedmetadata', onReady, { once: true });
+    /* ---- cover-fit draw ---- */
+    function drawCurrentFrame() {
+      if (!_scrubReady || !_scrubVideo.videoWidth) return;
+      var vw = _scrubVideo.videoWidth,  vh2 = _scrubVideo.videoHeight;
+      var cw = window.innerWidth,        ch  = window.innerHeight;
+      var vRatio = vw / vh2, cRatio = cw / ch;
+      var w, h, x, y;
+      if (vRatio > cRatio) {           /* video wider → fill height, crop sides */
+        h = ch; w = h * vRatio; x = (cw - w) / 2; y = 0;
+      } else {                         /* video taller → fill width, crop top/bottom */
+        w = cw; h = w / vRatio; x = 0; y = (ch - h) / 2;
+      }
+      _scrubCtx.clearRect(0, 0, cw, ch);
+      _scrubCtx.drawImage(_scrubVideo, x, y, w, h);
     }
+
+    /* ---- seek engine: queue next seek if target moved while seeking ---- */
+    function seekTo(t) {
+      if (_scrubSeeking) return;          /* let current seek finish */
+      _scrubSeeking = true;
+      _scrubVideo.currentTime = t;
+    }
+
+    _scrubVideo.addEventListener('seeked', function () {
+      drawCurrentFrame();
+      _scrubSeeking = false;
+      /* drain: if target drifted during seek, chase it */
+      if (Math.abs(_scrubTarget - _scrubVideo.currentTime) > 0.04) {
+        seekTo(_scrubTarget);
+      }
+    });
+
+    _scrubVideo.addEventListener('loadedmetadata', function () {
+      _scrubReady = true;
+      resizeCanvas();
+      seekTo(0);
+    });
+
+    /* already cached */
+    if (_scrubVideo.readyState >= 1) {
+      _scrubReady = true;
+      resizeCanvas();
+      seekTo(0);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
   }
 
   function updateHeroScrub(sy, vh) {
-    if (!scrubReady || !scrubVideo || !scrubSection) return;
-    var r = scrubSection.getBoundingClientRect();
-    var sectionH = scrubSection.offsetHeight;
-    // Progress: 0 when section top hits viewport top → 1 when section bottom leaves
-    var progress = Math.max(0, Math.min(1, -r.top / (sectionH - vh)));
-    var target = progress * scrubVideo.duration;
-    if (isFinite(target)) scrubVideo.currentTime = target;
+    if (!_scrubReady || !_scrubSection) return;
+
+    var r        = _scrubSection.getBoundingClientRect();
+    var scrollH  = _scrubSection.offsetHeight - vh;
+    var progress = Math.max(0, Math.min(1, -r.top / scrollH));
+
+    /* update progress bar */
+    if (_scrubBar) _scrubBar.style.width = (progress * 100) + '%';
+
+    /* seek video */
+    var target = progress * _scrubVideo.duration;
+    if (isFinite(target)) {
+      _scrubTarget = target;
+      seekTo(target);  /* seekTo is closure — call local version */
+    }
+
+    /* show overlay text when 75 % through */
+    if (_scrubOverlay) {
+      if (progress >= 0.75 && !_overlayShown) {
+        _overlayShown = true;
+        _scrubOverlay.classList.add('visible');
+      } else if (progress < 0.72 && _overlayShown) {
+        _overlayShown = false;
+        _scrubOverlay.classList.remove('visible');
+      }
+    }
+  }
+
+  /* expose seekTo so updateHeroScrub can call it — re-declared as module var */
+  function seekTo(t) {
+    if (!_scrubVideo || _scrubSeeking) return;
+    _scrubSeeking = true;
+    _scrubVideo.currentTime = t;
   }
 
   /* ---------------------------------------------------------------- */
